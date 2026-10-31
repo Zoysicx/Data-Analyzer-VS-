@@ -3,6 +3,7 @@
 # Bytecode version: 3.15 (3666)
 # Source timestamp: 2026-10-27 13:08:35 UTC (1793106515)
 
+import importlib
 import io
 import json
 import logging
@@ -1058,6 +1059,7 @@ if (
         if uploaded_file.name.lower().endswith('.csv'):
             loaded_df = pd.read_csv(uploaded_file)
         else:
+            importlib.import_module('openpyxl')
             loaded_df = pd.read_excel(uploaded_file)
         if loaded_df.empty or len(loaded_df.columns) == 0:
             raise ValueError('The uploaded dataset contains no tabular data.')
@@ -1068,8 +1070,18 @@ if (
             messages=[],
         )
         st.sidebar.success(f'Loaded **{uploaded_file.name}**. Chat history cleared.')
+    except ImportError:
+        st.session_state.update(
+            df=None,
+            uploaded_file_id=uploaded_file.file_id,
+            dataset_name=uploaded_file.name,
+            messages=[],
+        )
+        st.error(
+            "The 'openpyxl' package is required to process Excel (.xlsx) files. "
+            'Please run `pip install openpyxl` in your terminal.'
+        )
     except (
-        ImportError,
         OSError,
         UnicodeDecodeError,
         ValueError,

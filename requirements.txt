@@ -1,6 +1,7 @@
 streamlit
 plotly
 pandas
+openpyxl
 requests
 openai
 python-dotenv

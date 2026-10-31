@@ -27,6 +27,9 @@ On macOS or Linux, activate the virtual environment with
 Upload a CSV or Excel file in the sidebar. No local sample dataset or absolute
 file path is required.
 
+Excel (.xlsx) uploads use the `openpyxl` dependency, which is included in
+`requirements.txt`.
+
 ## Offline evaluation (no API key or runtime internet required)
 
 Dependencies must be installed before going offline. Then edit the local `.env`
